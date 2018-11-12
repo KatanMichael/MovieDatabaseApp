@@ -13,5 +13,7 @@ interface DataRequest
                   @Query("region")region: String = "", @Query("year") year: Int = 0): retrofit2.Call<MovieRequest>
 
 
+    @GET("/movie/popular")
+    fun getPopularMovies(@Query("api_key") apiKey: String): retrofit2.Call<MovieRequest>
 
 }

@@ -57,5 +57,33 @@ object RetroController
 
     }
 
+    fun getPopularMovies(requestListener: RequestListener)
+    {
+        retroClient.getPopularMovies(API_KEY)
+                .enqueue(object : Callback<MovieRequest>
+                {
+                    override fun onFailure(call: Call<MovieRequest>, t: Throwable)
+                    {
+                        requestListener.onError(t.message.toString())
+                    }
+
+                    override fun onResponse(call: Call<MovieRequest>, response: Response<MovieRequest>)
+                    {
+                        if (response != null)
+                        {
+                            val body = response.body()
+
+                            if(body!= null)
+                            {
+                                requestListener.onComplete(body.results)
+                            }
+                        }
+
+                    }
+
+
+                })
+    }
+
 
 }
