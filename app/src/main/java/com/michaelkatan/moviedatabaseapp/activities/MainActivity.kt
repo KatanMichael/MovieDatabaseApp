@@ -6,7 +6,8 @@ import android.support.design.widget.BottomNavigationView
 import android.util.Log
 import android.view.MenuItem
 import com.michaelkatan.moviedatabaseapp.R
-import com.michaelkatan.moviedatabaseapp.fragments.MainScreenFragment
+import com.michaelkatan.moviedatabaseapp.fragments.PopMovieMainFragment
+import com.michaelkatan.moviedatabaseapp.fragments.PopTvShowsMainFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        supportFragmentManager.beginTransaction().replace(R.id.main_container,MainScreenFragment(),"Movie").commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_container,PopMovieMainFragment(),"Movie").commit()
 
         bottomNavigation.setOnNavigationItemSelectedListener(object : BottomNavigationView.OnNavigationItemReselectedListener,
             BottomNavigationView.OnNavigationItemSelectedListener {
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
                     if(!(findFragmentByTag != null && findFragmentByTag.isVisible))
                     {
-                        supportFragmentManager.beginTransaction().replace(R.id.main_container,MainScreenFragment(),"Movie").commit()
+                        supportFragmentManager.beginTransaction().replace(R.id.main_container,PopMovieMainFragment(),"Movie").commit()
                     }
 
                     return true
@@ -37,7 +38,12 @@ class MainActivity : AppCompatActivity() {
 
                 if(item.itemId == R.id.navigation_tvShows)
                 {
-                    Log.d("Navigation","tvShows")
+                    val findFragmentByTag = supportFragmentManager.findFragmentByTag("TvShow")
+
+                    if(!(findFragmentByTag != null && findFragmentByTag.isVisible))
+                    {
+                        supportFragmentManager.beginTransaction().replace(R.id.main_container,PopTvShowsMainFragment(),"TvShow").commit()
+                    }
                     return true
                 }
                 if(item.itemId == R.id.navigation_people)

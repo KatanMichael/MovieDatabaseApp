@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +17,12 @@ import com.michaelkatan.moviedatabaseapp.models.Movie
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 import kotlinx.android.synthetic.main.main_fragnent.*
 
-class MainScreenFragment : Fragment(), View.OnClickListener
+class PopMovieMainFragment : Fragment(), View.OnClickListener
 {
 
     val retroController: RetroController = RetroController
     val listofMovies = ArrayList<PopularItem>()
-
+    var movieCount = 1
 
     override fun onClick(p0: View?)
     {
@@ -42,8 +43,28 @@ class MainScreenFragment : Fragment(), View.OnClickListener
 
         main_fragemnt_pop_movies_recycle.layoutManager = GridLayoutManager(view.context,3)
 
+        getMoviesByPageNumber(movieCount,popularMoviesAdapter)
+
+        main_fragemnt_pop_movies_recycle.addOnScrollListener(object : RecyclerView.OnScrollListener()
+        {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int)
+            {
+                if (!recyclerView!!.canScrollVertically(1))
+                {
+                    movieCount++
+                    getMoviesByPageNumber(movieCount, popularMoviesAdapter)
+                }
+            }
+
+        })
+    }
+
+
+    fun getMoviesByPageNumber(pageNumber: Int, adatper: PopularAdapter)
+    {
         retroController.getPopularMovies(object :
-                RequestListener
+            RequestListener
         {
             override fun <T> onComplete(results: Array<T>)
             {
@@ -57,7 +78,7 @@ class MainScreenFragment : Fragment(), View.OnClickListener
 
                 }
 
-                popularMoviesAdapter.notifyDataSetChanged()
+                adatper.notifyDataSetChanged()
             }
 
             override fun onError(message: String)
@@ -65,14 +86,8 @@ class MainScreenFragment : Fragment(), View.OnClickListener
                 Log.d("PopularMoviesFrag","Error: $message")
             }
 
-        })
-
-
+        },page = pageNumber)
     }
-
-
-
 
 }
 
-//TODO figure out how to deal with the adapter

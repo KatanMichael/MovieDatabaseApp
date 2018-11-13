@@ -3,8 +3,8 @@ package com.michaelkatan.moviedatabaseapp.controllers
 import android.util.Log
 import com.michaelkatan.moviedatabaseapp.interfaces.DataRequest
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
-import com.michaelkatan.moviedatabaseapp.models.Movie
 import com.michaelkatan.moviedatabaseapp.models.MovieRequest
+import com.michaelkatan.moviedatabaseapp.models.TvRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,17 +57,17 @@ object RetroController
 
     }
 
-    fun getPopularMovies(requestListener: RequestListener)
+    fun getPopularMovies(requestListener: RequestListener, page: Int = 1)
     {
         Log.d("RetroController","getPopularMovies")
 
-        retroClient.getPopularMovies(API_KEY)
+        retroClient.getPopularMovies(API_KEY,page = page)
                 .enqueue(object : Callback<MovieRequest>
                 {
                     override fun onFailure(call: Call<MovieRequest>, t: Throwable)
                     {
                         requestListener.onError(t.message.toString())
-                        Log.d("RetroController","onFailure")
+                        Log.d("RetroController","onFailure + ")
 
                     }
 
@@ -102,6 +102,45 @@ object RetroController
 
 
                 })
+    }
+
+    fun getPopularTvShows(requestListener: RequestListener, page: Int = 1)
+    {
+        retroClient.getPopularTvShows(apiKey = API_KEY, page = page)
+            .enqueue(object : Callback<TvRequest>
+            {
+                override fun onFailure(call: Call<TvRequest>, t: Throwable)
+                {
+                    requestListener.onError(t.message.toString())
+                }
+
+                override fun onResponse(call: Call<TvRequest>, response: Response<TvRequest>)
+                {
+                    if (response != null)
+                    {
+                        val body = response.body()
+
+                        if(body!= null)
+                        {
+                            for(m in body.results)
+                            {
+                                Log.d("RetroController","TvShow: $m")
+                            }
+
+                            requestListener.onComplete(body.results)
+                        }else
+                        {
+                            Log.d("RetroController","body is null: ${response.code()}")
+
+                        }
+                    }else
+                    {
+                        Log.d("RetroController","response is null")
+                    }
+
+                }
+
+            })
     }
 
 
