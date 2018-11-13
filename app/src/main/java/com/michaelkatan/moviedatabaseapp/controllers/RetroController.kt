@@ -59,24 +59,43 @@ object RetroController
 
     fun getPopularMovies(requestListener: RequestListener)
     {
+        Log.d("RetroController","getPopularMovies")
+
         retroClient.getPopularMovies(API_KEY)
                 .enqueue(object : Callback<MovieRequest>
                 {
                     override fun onFailure(call: Call<MovieRequest>, t: Throwable)
                     {
                         requestListener.onError(t.message.toString())
+                        Log.d("RetroController","onFailure")
+
                     }
 
                     override fun onResponse(call: Call<MovieRequest>, response: Response<MovieRequest>)
                     {
+                        Log.d("RetroController","onResponse")
+                        Log.d("RetroController","Call: ${call.request().url()}")
+
                         if (response != null)
                         {
                             val body = response.body()
 
                             if(body!= null)
                             {
+                                for(m in body.results)
+                                {
+                                    Log.d("RetroController","Movie: $m")
+                                }
+
                                 requestListener.onComplete(body.results)
+                            }else
+                            {
+                                Log.d("RetroController","body is null: ${response.code()}")
+
                             }
+                        }else
+                        {
+                            Log.d("RetroController","response is null")
                         }
 
                     }

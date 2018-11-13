@@ -2,7 +2,9 @@ package com.michaelkatan.moviedatabaseapp.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,46 +19,76 @@ import kotlinx.android.synthetic.main.main_fragnent.*
 class MainScreenFragment : Fragment(), View.OnClickListener
 {
 
-    override fun onClick(p0: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    val retroController: RetroController = RetroController
+    val listofMovies = ArrayList<PopularItem>()
+
+
+    override fun onClick(p0: View?)
+    {
+
     }
 
-    val retroController: RetroController = RetroController
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        val view = inflater.inflate(R.layout.main_fragnent, container, false)
-
-        return view
+        return inflater.inflate(R.layout.main_fragnent, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
+        val popularMoviesAdapter = PopularAdapter(listofMovies,this,view.context)
 
+        main_fragemnt_pop_movies_recycle.adapter = popularMoviesAdapter
 
+        main_fragemnt_pop_movies_recycle.layoutManager = GridLayoutManager(view.context,3)
 
         retroController.getPopularMovies(object :
-                RequestListener {
+                RequestListener
+        {
             override fun <T> onComplete(results: Array<T>)
             {
-                val tempArray = ArrayList<PopularItem>(results.size)
+                val tempArray = results as Array<Movie>
 
-                for(r in results.indices)
+                for(r in tempArray.indices)
                 {
-                    tempArray.get(r).convertToPopularItem(results.get(r) as Movie)
+
+                    listofMovies.add(PopularItem(tempArray[r].id,tempArray[r].poster_path,"movie"))
+                    Log.d("PopularMoviesFrag","Popular Item: $r.")
+
                 }
 
-                main_fragemnt_pop_movies_recycle.layoutManager = LinearLayoutManager(this@MainScreenFragment.context!!)
-                main_fragemnt_pop_movies_recycle.adapter = PopularAdapter(tempArray.toArray() as Array<PopularItem>?,this@MainScreenFragment, this@MainScreenFragment.context!!)
-
+                popularMoviesAdapter.notifyDataSetChanged()
             }
 
             override fun onError(message: String)
             {
-
+                Log.d("PopularMoviesFrag","Error: $message")
             }
 
         })
+
+//        retroController.getMovies("Matrix",object : RequestListener
+//        {
+//            override fun <T> onComplete(results: Array<T>)
+//            {
+//                val tempArray = results as Array<Movie>
+//
+//                for(t in tempArray)
+//                {
+//                    listofMovies.add(PopularItem(t.id,t.poster_path,"Movie"))
+//
+//                }
+//
+//                popularMoviesAdapter.notifyDataSetChanged()
+//            }
+//
+//            override fun onError(message: String)
+//            {
+//
+//            }
+//
+//
+//        })
 
     }
 

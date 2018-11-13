@@ -1,7 +1,10 @@
 package com.michaelkatan.moviedatabaseapp.models
 
-data class PopularItem(var id: Int, var PosterPath: String, var type: String)
+data class PopularItem(var id: Int, var PosterPath: String?, var type: String)
 {
+
+
+
     fun convertToPopularItem(movie: Movie)
     {
         this.id = movie.id

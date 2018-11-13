@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         supportFragmentManager.beginTransaction().add(R.id.mainFragmentPlace, MainScreenFragment())
-                .commitNow()
+                .commit()
 
     }
 }

@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 
-class PopularAdapter(var items: Array<PopularItem>?
+class PopularAdapter(var items: ArrayList<PopularItem>?
                      , val clickListener: View.OnClickListener?
                      , val context: Context) : RecyclerView.Adapter<PopularAdapter.PopularResultViewHolder>()
 {
