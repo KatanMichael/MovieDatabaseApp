@@ -2,8 +2,12 @@ package com.michaelkatan.moviedatabaseapp.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
+import android.util.Log
+import android.view.MenuItem
 import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.fragments.MainScreenFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,8 +16,47 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction().add(R.id.mainFragmentPlace, MainScreenFragment())
-                .commit()
+
+        supportFragmentManager.beginTransaction().replace(R.id.main_container,MainScreenFragment(),"Movie").commit()
+
+        bottomNavigation.setOnNavigationItemSelectedListener(object : BottomNavigationView.OnNavigationItemReselectedListener,
+            BottomNavigationView.OnNavigationItemSelectedListener {
+            override fun onNavigationItemSelected(item: MenuItem): Boolean
+            {
+                if(item.itemId == R.id.navigation_Movies)
+                {
+                    val findFragmentByTag = supportFragmentManager.findFragmentByTag("Movie")
+
+                    if(!(findFragmentByTag != null && findFragmentByTag.isVisible))
+                    {
+                        supportFragmentManager.beginTransaction().replace(R.id.main_container,MainScreenFragment(),"Movie").commit()
+                    }
+
+                    return true
+                }
+
+                if(item.itemId == R.id.navigation_tvShows)
+                {
+                    Log.d("Navigation","tvShows")
+                    return true
+                }
+                if(item.itemId == R.id.navigation_people)
+                {
+                    Log.d("Navigation","people")
+                    return true
+                }
+
+                return false
+            }
+
+            override fun onNavigationItemReselected(item: MenuItem)
+            {
+
+
+            }
+
+
+        })
 
     }
 }

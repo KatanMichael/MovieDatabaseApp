@@ -67,28 +67,6 @@ class MainScreenFragment : Fragment(), View.OnClickListener
 
         })
 
-//        retroController.getMovies("Matrix",object : RequestListener
-//        {
-//            override fun <T> onComplete(results: Array<T>)
-//            {
-//                val tempArray = results as Array<Movie>
-//
-//                for(t in tempArray)
-//                {
-//                    listofMovies.add(PopularItem(t.id,t.poster_path,"Movie"))
-//
-//                }
-//
-//                popularMoviesAdapter.notifyDataSetChanged()
-//            }
-//
-//            override fun onError(message: String)
-//            {
-//
-//            }
-//
-//
-//        })
 
     }
 
