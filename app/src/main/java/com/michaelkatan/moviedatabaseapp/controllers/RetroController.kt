@@ -4,12 +4,14 @@ import android.util.Log
 import com.michaelkatan.moviedatabaseapp.interfaces.DataRequest
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
 import com.michaelkatan.moviedatabaseapp.models.MovieRequest
+import com.michaelkatan.moviedatabaseapp.models.PersonRequest
 import com.michaelkatan.moviedatabaseapp.models.TvRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Callable
 
 object RetroController
 {
@@ -141,6 +143,34 @@ object RetroController
                 }
 
             })
+    }
+
+    fun getPopularPersons(requestListener: RequestListener, page: Int = 1)
+    {
+        retroClient.getPopularPersons(API_KEY,page = page)
+            .enqueue(object : Callback<PersonRequest>
+            {
+                override fun onFailure(call: Call<PersonRequest>, t: Throwable)
+                {
+                    requestListener.onError(t.message.toString())
+                }
+
+                override fun onResponse(call: Call<PersonRequest>, response: Response<PersonRequest>)
+                {
+                    if(response != null)
+                    {
+                        if(response.body() != null)
+                        {
+                            requestListener.onComplete(response?.body()!!.results)
+                        }
+                    }
+                }
+
+            }
+
+            )
+
+
     }
 
 

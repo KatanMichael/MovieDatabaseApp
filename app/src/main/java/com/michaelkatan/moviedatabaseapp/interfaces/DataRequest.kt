@@ -1,6 +1,7 @@
 package com.michaelkatan.moviedatabaseapp.interfaces
 
 import com.michaelkatan.moviedatabaseapp.models.MovieRequest
+import com.michaelkatan.moviedatabaseapp.models.PersonRequest
 import com.michaelkatan.moviedatabaseapp.models.TvRequest
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -22,4 +23,9 @@ interface DataRequest
     @GET("tv/popular")
     fun getPopularTvShows(@Query("api_key") apiKey: String, @Query("language") language: String = "en-US",
                           @Query("page") page: Int = 1): retrofit2.Call<TvRequest>
+
+
+    @GET("person/popular")
+    fun getPopularPersons(@Query("api_key") apiKey: String, @Query("language") language: String = "en-US"
+                          ,@Query("page") page: Int = 1): retrofit2.Call<PersonRequest>
 }
