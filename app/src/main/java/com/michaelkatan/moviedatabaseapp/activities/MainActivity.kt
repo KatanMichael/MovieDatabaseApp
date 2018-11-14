@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(mainToolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(resources.getDrawable(R.drawable.ic_menu))
+
 
         toolBarSearch_Btn.setOnClickListener()
         {
