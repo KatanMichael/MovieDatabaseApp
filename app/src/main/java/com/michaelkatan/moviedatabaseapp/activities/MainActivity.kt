@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.fragments.PopMovieMainFragment
 import com.michaelkatan.moviedatabaseapp.fragments.PopPersonsMainFragment
@@ -18,6 +19,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(mainToolbar)
+
+        toolBarSearch_Btn.setOnClickListener()
+        {
+            Toast.makeText(this@MainActivity,toolBarSearch_Et.text.toString()
+                    ,Toast.LENGTH_SHORT).show()
+        }
 
         supportFragmentManager.beginTransaction().replace(R.id.main_container,PopMovieMainFragment(),"Movie").commit()
 
