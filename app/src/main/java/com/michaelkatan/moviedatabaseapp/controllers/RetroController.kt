@@ -159,10 +159,11 @@ object RetroController
                 {
                     if(response != null)
                     {
-                        if(response.body() != null)
-                        {
-                            requestListener.onComplete(response?.body()!!.results)
-                        }
+                            val body = response.body()
+                            if(body != null)
+                            {
+                                requestListener.onComplete(body.results)
+                            }
                     }
                 }
 

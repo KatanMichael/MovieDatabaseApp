@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.fragments.PopMovieMainFragment
+import com.michaelkatan.moviedatabaseapp.fragments.PopPersonsMainFragment
 import com.michaelkatan.moviedatabaseapp.fragments.PopTvShowsMainFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -48,7 +49,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 if(item.itemId == R.id.navigation_people)
                 {
-                    Log.d("Navigation","people")
+                    val findFragmentByTag = supportFragmentManager.findFragmentByTag("Person")
+
+                    if(!(findFragmentByTag != null && findFragmentByTag.isVisible))
+                    {
+                        supportFragmentManager.beginTransaction().replace(R.id.main_container,PopPersonsMainFragment(),"Person").commit()
+                    }
                     return true
                 }
 

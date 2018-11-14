@@ -3,7 +3,6 @@ package com.michaelkatan.moviedatabaseapp.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -61,7 +60,7 @@ class PopMovieMainFragment : Fragment(), View.OnClickListener
     }
 
 
-    fun getMoviesByPageNumber(pageNumber: Int, adatper: PopularAdapter)
+    fun getMoviesByPageNumber(pageNumber: Int, adapter: PopularAdapter)
     {
         retroController.getPopularMovies(object :
             RequestListener
@@ -74,11 +73,11 @@ class PopMovieMainFragment : Fragment(), View.OnClickListener
                 {
 
                     listofMovies.add(PopularItem(tempArray[r].id,tempArray[r].poster_path,"movie"))
-                    Log.d("PopularMoviesFrag","Popular Item: $r.")
+
 
                 }
 
-                adatper.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
             }
 
             override fun onError(message: String)
