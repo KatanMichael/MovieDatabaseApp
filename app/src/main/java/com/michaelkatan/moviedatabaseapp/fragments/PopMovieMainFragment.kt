@@ -11,22 +11,20 @@ import android.view.ViewGroup
 import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.adapters.PopularAdapter
 import com.michaelkatan.moviedatabaseapp.controllers.RetroController
+import com.michaelkatan.moviedatabaseapp.interfaces.ItemClickListener
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
 import com.michaelkatan.moviedatabaseapp.models.Movie
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 import kotlinx.android.synthetic.main.main_fragnent.*
 
-class PopMovieMainFragment : Fragment(), View.OnClickListener
+class PopMovieMainFragment : Fragment(), ItemClickListener
 {
 
+
     val retroController: RetroController = RetroController
-    val listofMovies = ArrayList<PopularItem>()
+    val listOfMovies = ArrayList<PopularItem>()
     var movieCount = 1
 
-    override fun onClick(p0: View?)
-    {
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -36,7 +34,7 @@ class PopMovieMainFragment : Fragment(), View.OnClickListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
-        val popularMoviesAdapter = PopularAdapter(listofMovies,this,view.context)
+        val popularMoviesAdapter = PopularAdapter(listOfMovies,view.context,this)
 
         main_fragemnt_pop_movies_recycle.adapter = popularMoviesAdapter
 
@@ -59,9 +57,25 @@ class PopMovieMainFragment : Fragment(), View.OnClickListener
         })
     }
 
+    override fun onClickItem(v: View?, position: Int)
+    {
+       val bundle = Bundle()
+        bundle.putInt("id",listOfMovies[position].id)
+        bundle.putString("type","movie")
+
+        val mainItemFragment = Main_Item_Fragment()
+        mainItemFragment.arguments = bundle
+
+        val supportFragmentManager = this@PopMovieMainFragment.activity!!.supportFragmentManager
+
+        supportFragmentManager.beginTransaction().replace(R.id.main_container,mainItemFragment,"itemFrag")
+            .addToBackStack("itemFrag").commit()
+
+    }
 
     fun getMoviesByPageNumber(pageNumber: Int, adapter: PopularAdapter)
     {
+
         retroController.getPopularMovies(object :
             RequestListener
         {
@@ -72,7 +86,7 @@ class PopMovieMainFragment : Fragment(), View.OnClickListener
                 for(r in tempArray.indices)
                 {
 
-                    listofMovies.add(PopularItem(tempArray[r].id,tempArray[r].poster_path,"movie"))
+                    listOfMovies.add(PopularItem(tempArray[r].id,tempArray[r].poster_path,"movie"))
 
 
                 }
@@ -90,3 +104,4 @@ class PopMovieMainFragment : Fragment(), View.OnClickListener
 
 }
 
+//TODO Fix another request is send after returning from item fragment

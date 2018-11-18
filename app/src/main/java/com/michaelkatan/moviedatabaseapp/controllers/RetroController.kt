@@ -3,6 +3,7 @@ package com.michaelkatan.moviedatabaseapp.controllers
 import android.util.Log
 import com.michaelkatan.moviedatabaseapp.interfaces.DataRequest
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
+import com.michaelkatan.moviedatabaseapp.models.Movie
 import com.michaelkatan.moviedatabaseapp.models.MovieRequest
 import com.michaelkatan.moviedatabaseapp.models.PersonRequest
 import com.michaelkatan.moviedatabaseapp.models.TvRequest
@@ -84,10 +85,6 @@ object RetroController
 
                             if(body!= null)
                             {
-                                for(m in body.results)
-                                {
-                                    Log.d("RetroController","Movie: $m")
-                                }
 
                                 requestListener.onComplete(body.results)
                             }else
@@ -124,11 +121,6 @@ object RetroController
 
                         if(body!= null)
                         {
-                            for(m in body.results)
-                            {
-                                Log.d("RetroController","TvShow: $m")
-                            }
-
                             requestListener.onComplete(body.results)
                         }else
                         {
@@ -174,5 +166,33 @@ object RetroController
 
     }
 
+    fun getMovieById(requestListener: RequestListener, id: Int)
+    {
+        retroClient.getMovieById(id,API_KEY)
+            .enqueue(object : Callback<Movie>
+            {
+                override fun onFailure(call: Call<Movie>, t: Throwable)
+                {
+                    requestListener.onError(t.message.toString())
+                }
+
+                override fun onResponse(call: Call<Movie>, response: Response<Movie>)
+                {
+                    val tempArray = ArrayList<Movie>()
+
+                    if(response != null)
+                    {
+                        val body = response.body()
+
+                        if(body != null)
+                        {
+                            tempArray.add(body)
+                            requestListener.onComplete(tempArray.toArray())
+                        }
+                    }
+                }
+
+            })
+    }
 
 }

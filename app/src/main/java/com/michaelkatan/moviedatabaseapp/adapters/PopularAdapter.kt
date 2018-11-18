@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.michaelkatan.moviedatabaseapp.R
+import com.michaelkatan.moviedatabaseapp.interfaces.ItemClickListener
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 
 class PopularAdapter(var items: ArrayList<PopularItem>?
-                     , val clickListener: View.OnClickListener?
-                     , val context: Context) : RecyclerView.Adapter<PopularAdapter.PopularResultViewHolder>()
+                     , val context: Context, val myClickListener: ItemClickListener) : RecyclerView.Adapter<PopularAdapter.PopularResultViewHolder>()
 {
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularAdapter.PopularResultViewHolder
     {
         val view = LayoutInflater.from(parent.context)
@@ -45,12 +48,20 @@ class PopularAdapter(var items: ArrayList<PopularItem>?
                 .load(urlString)
                 .into(holder.moviePosterImage)
 
+
+        holder.moviePosterImage.setOnClickListener()
+        {
+            myClickListener.onClickItem(holder.view,position)
+        }
     }
 
 
     class PopularResultViewHolder(val view: View) : RecyclerView.ViewHolder(view)
     {
         val moviePosterImage : ImageView = view.findViewById(R.id.popular_item_poster)
+
     }
+
+
 
 }

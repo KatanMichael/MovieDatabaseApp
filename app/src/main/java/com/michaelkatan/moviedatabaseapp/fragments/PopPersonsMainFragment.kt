@@ -12,14 +12,19 @@ import android.widget.Toast
 import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.adapters.PopularAdapter
 import com.michaelkatan.moviedatabaseapp.controllers.RetroController
+import com.michaelkatan.moviedatabaseapp.interfaces.ItemClickListener
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
 import com.michaelkatan.moviedatabaseapp.models.Person
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 import kotlinx.android.synthetic.main.main_fragnent.*
 import kotlinx.android.synthetic.main.main_pop_persons_fragment.*
 
-class PopPersonsMainFragment : Fragment(), View.OnClickListener
+class PopPersonsMainFragment : Fragment(), ItemClickListener
 {
+    override fun onClickItem(v: View?, position: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     val retroController: RetroController = RetroController
     val listofPersons = ArrayList<PopularItem>()
     var personCount = 1
@@ -27,7 +32,7 @@ class PopPersonsMainFragment : Fragment(), View.OnClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
 
-        val popularPersonsAdapter = PopularAdapter(listofPersons,this,view.context)
+        val popularPersonsAdapter = PopularAdapter(listofPersons,view.context,this)
         main_fragemnt_pop_persons_recycle.adapter = popularPersonsAdapter
         main_fragemnt_pop_persons_recycle.layoutManager = GridLayoutManager(view.context,3)
 
@@ -80,9 +85,5 @@ class PopPersonsMainFragment : Fragment(), View.OnClickListener
         return inflater.inflate(R.layout.main_pop_persons_fragment, container,false)
     }
 
-
-    override fun onClick(p0: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
 }

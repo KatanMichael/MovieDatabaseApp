@@ -11,13 +11,15 @@ import android.widget.Toast
 import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.adapters.PopularAdapter
 import com.michaelkatan.moviedatabaseapp.controllers.RetroController
+import com.michaelkatan.moviedatabaseapp.interfaces.ItemClickListener
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 import com.michaelkatan.moviedatabaseapp.models.TvShow
 import kotlinx.android.synthetic.main.main_poptvshows_fragment.*
 
-class PopTvShowsMainFragment : Fragment(), View.OnClickListener
+class PopTvShowsMainFragment : Fragment(),ItemClickListener
 {
+
 
     val retroController: RetroController = RetroController
     val listofShows = ArrayList<PopularItem>()
@@ -28,7 +30,7 @@ class PopTvShowsMainFragment : Fragment(), View.OnClickListener
     {
         super.onViewCreated(view, savedInstanceState)
 
-        val popularTvShowAdapter = PopularAdapter(listofShows,this, view.context)
+        val popularTvShowAdapter = PopularAdapter(listofShows, view.context,this)
 
         main_fragemnt_pop_tvShows_recycle.adapter = popularTvShowAdapter
 
@@ -74,14 +76,14 @@ class PopTvShowsMainFragment : Fragment(), View.OnClickListener
         }, page = requsetPage)
     }
 
+
+
+    override fun onClickItem(v: View?, position: Int)
+    {
+
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         return inflater.inflate(R.layout.main_poptvshows_fragment, container, false)
     }
-
-    override fun onClick(p0: View?)
-    {
-
-    }
-
 }
