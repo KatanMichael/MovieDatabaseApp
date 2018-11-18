@@ -21,7 +21,7 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
 {
 
 
-    private val     retroController: RetroController = RetroController
+    private val  retroController: RetroController = RetroController
     val listOfMovies = ArrayList<PopularItem>()
     var movieCount = 1
 
@@ -56,6 +56,8 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
         })
 
         listOfMovies.clear()
+
+
 
         for(i in 1..movieCount)
         {

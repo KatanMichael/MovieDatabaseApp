@@ -1,6 +1,7 @@
 package com.michaelkatan.moviedatabaseapp.fragments
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.Person
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.michaelkatan.moviedatabaseapp.R
+import com.michaelkatan.moviedatabaseapp.adapters.MainItemPageAdapter
 import com.michaelkatan.moviedatabaseapp.controllers.RetroController
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
 import com.michaelkatan.moviedatabaseapp.models.Movie
@@ -17,6 +19,9 @@ import kotlinx.android.synthetic.main.main_item_screen.*
 
 class Main_Item_Fragment: Fragment()
 {
+
+    val subFragmentList = ArrayList<Fragment>()
+    val fragmentTitleList = ArrayList<String>()
 
     val imagePrefix = "https://image.tmdb.org/t/p/w500/"
     val controller = RetroController
@@ -48,7 +53,30 @@ class Main_Item_Fragment: Fragment()
             }
         }
 
-        activity?.actionBar?.hide()
+        val mainPagerAdapter =  MainItemPageAdapter(activity?.supportFragmentManager,subFragmentList,fragmentTitleList)
+
+        mainPagerAdapter.addFragment(Main_Item_Info_Fragment(),"info")
+
+        main_item_tabLayout.setupWithViewPager(main_item_pager)
+
+
+        main_item_tabLayout.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener
+        {
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabSelected(tab: TabLayout.Tab?)
+            {
+                main_item_pager.currentItem = tab!!.position
+
+            }
+
+        })
+
+        main_item_pager.adapter = mainPagerAdapter
+
+        main_item_pager.currentItem = 0
     }
 
 
@@ -74,7 +102,6 @@ class Main_Item_Fragment: Fragment()
             }
 
             main_item_genre.text = genre+" |"
-
         }
     }
 }

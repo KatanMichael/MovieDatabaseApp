@@ -45,64 +45,74 @@
                 />
 
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@id/main_item_backdrop"
-                    android:layout_margin="5dp"
-            >
-
-                <ImageView android:layout_width="150dp"
-                           android:layout_height="210dp"
-                           android:id="@+id/main_item_poster"
-                           tools:srcCompat="@tools:sample/backgrounds/scenic"
-                           android:scaleType="centerCrop"
-                           android:layout_marginStart="10dp"
-                           android:layout_marginTop="10dp"
-
-
-                />
-
                 <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginStart="10dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_below="@id/main_item_backdrop"
+                        android:layout_margin="5dp"
+                        android:id="@+id/main_item_subHeaderLayout"
                 >
 
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/main_item_title"
-                            android:text="testing title"
-                            android:maxLines="2"
-                            android:layout_gravity="center"
-                            style="@style/main_item_textStyle"
+                    <ImageView android:layout_width="150dp"
+                               android:layout_height="210dp"
+                               android:id="@+id/main_item_poster"
+                               tools:srcCompat="@tools:sample/backgrounds/scenic"
+                               android:scaleType="centerCrop"
+                               android:layout_marginStart="10dp"
+                               android:layout_marginTop="10dp"
 
-                    />
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/main_item_releaseDate"
-                            android:text="24/6/1990"
-                            style="@style/main_item_textStyle"
-                            android:layout_marginTop="5dp"
-                    />
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/main_item_textStyle"
-                            android:id="@+id/main_item_genre"
 
                     />
 
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_marginStart="10dp"
+                    >
 
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/main_item_title"
+                                android:text="testing title"
+                                android:maxLines="2"
+                                android:layout_gravity="center"
+                                style="@style/main_item_textStyle"
+
+                        />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/main_item_releaseDate"
+                                android:text="24/6/1990"
+                                style="@style/main_item_textStyle"
+                                android:layout_marginTop="5dp"
+                        />
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/main_item_textStyle"
+                                android:id="@+id/main_item_genre"
+
+                        />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
-            </LinearLayout>
+                <android.support.design.widget.TabLayout
+                        android:id="@+id/main_item_tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_anchorGravity="bottom"
+                        app:tabIndicatorColor="@android:color/black"
+                        app:tabSelectedTextColor="@android:color/holo_red_dark"
+                        app:tabTextColor="@color/amber_500"
+                        android:layout_below="@+id/main_item_subHeaderLayout"
+                />
 
             </RelativeLayout>
 
@@ -123,69 +133,13 @@
             android:scrollingCache="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-                android:layout_width="match_parent"
+
+        <android.support.v4.view.ViewPager
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:id="@+id/main_item_pager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" android:visibility="visible"/>
 
-            <TextView
-                    android:id="@+id/channel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_middle"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:minWidth="60dp"
-                    android:paddingBottom="@dimen/spacing_small"
-                    android:paddingLeft="@dimen/spacing_medium"
-                    android:paddingRight="@dimen/spacing_medium"
-                    android:paddingTop="@dimen/spacing_xsmall"
-                    android:text="Sport"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textColor="@android:color/white"/>
-
-            <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_medium"
-                    android:text="@string/short_lorem_ipsum"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"/>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_mlarge"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:tint="@color/grey_60"
-                />
-
-                <TextView
-                        android:id="@+id/date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="16 Mar 2016"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/grey_60"/>
-            </LinearLayout>
-
-
-            <TextView
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/very_long_lorem_ipsum"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/grey_80"/>
-
-        </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
