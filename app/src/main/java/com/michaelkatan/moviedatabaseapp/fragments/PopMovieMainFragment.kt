@@ -21,7 +21,7 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
 {
 
 
-    val retroController: RetroController = RetroController
+    private val     retroController: RetroController = RetroController
     val listOfMovies = ArrayList<PopularItem>()
     var movieCount = 1
 
@@ -29,6 +29,7 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         return inflater.inflate(R.layout.main_fragnent, container, false)
+
     }
 
 
@@ -39,8 +40,6 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
         main_fragemnt_pop_movies_recycle.adapter = popularMoviesAdapter
 
         main_fragemnt_pop_movies_recycle.layoutManager = GridLayoutManager(view.context,3)
-
-        getMoviesByPageNumber(movieCount,popularMoviesAdapter)
 
         main_fragemnt_pop_movies_recycle.addOnScrollListener(object : RecyclerView.OnScrollListener()
         {
@@ -55,6 +54,16 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
             }
 
         })
+
+        listOfMovies.clear()
+
+        for(i in 1..movieCount)
+        {
+            getMoviesByPageNumber(i,popularMoviesAdapter)
+        }
+
+
+
     }
 
     override fun onClickItem(v: View?, position: Int)
@@ -83,6 +92,8 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
             {
                 val tempArray = results as Array<Movie>
 
+
+
                 for(r in tempArray.indices)
                 {
 
@@ -97,6 +108,7 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
             override fun onError(message: String)
             {
                 Log.d("PopularMoviesFrag","Error: $message")
+
             }
 
         },page = pageNumber)
@@ -104,4 +116,4 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
 
 }
 
-//TODO Fix another request is send after returning from item fragment
+//TODO searchable interface

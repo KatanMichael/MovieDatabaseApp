@@ -76,8 +76,6 @@ object RetroController
 
                     override fun onResponse(call: Call<MovieRequest>, response: Response<MovieRequest>)
                     {
-                        Log.d("RetroController","onResponse")
-                        Log.d("RetroController","Call: ${call.request().url()}")
 
                         if (response != null)
                         {

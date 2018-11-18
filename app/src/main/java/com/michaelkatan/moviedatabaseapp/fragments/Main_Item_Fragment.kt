@@ -64,6 +64,16 @@ class Main_Item_Fragment: Fragment()
 
             Glide.with(this@Main_Item_Fragment).load(imagePrefix+item.backdrop_path).into(main_item_backdrop)
             Glide.with(this@Main_Item_Fragment).load(imagePrefix+item.poster_path).into(main_item_poster)
+            main_item_title.text = item.title
+            main_item_releaseDate.text = item.release_date
+            var genre : String = ""
+
+            for(s in item.genres)
+            {
+                genre+= " | ${s.name}"
+            }
+
+            main_item_genre.text = genre+" |"
 
         }
     }
