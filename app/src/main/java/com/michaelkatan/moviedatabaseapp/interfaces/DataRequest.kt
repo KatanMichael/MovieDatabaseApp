@@ -34,4 +34,7 @@ interface DataRequest
 
     @GET("tv/{tv_id}")
     fun getTvShowById(@Path("tv_id") id: Int,@Query("api_key")apiKey: String): Call<TvShow>
+
+    @GET("movie/{movie_id}/credits")
+    fun getMovieCreditsById(@Path("movie_id") id:Int, @Query("api_key") api_key: String) :Call<CreditRequest>
 }

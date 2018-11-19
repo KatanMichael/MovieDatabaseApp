@@ -219,4 +219,33 @@ object RetroController
         )
     }
 
+    fun getMovieCreditsById(requestListener: RequestListener, id: Int)
+    {
+        retroClient.getMovieCreditsById(id, API_KEY)
+            .enqueue(object :Callback<CreditRequest>
+            {
+                override fun onFailure(call: Call<CreditRequest>, t: Throwable)
+                {
+                    requestListener.onError(t.message.toString())
+                }
+
+                override fun onResponse(call: Call<CreditRequest>, response: Response<CreditRequest>)
+                {
+                    val tempArray = ArrayList<CreditRequest>()
+
+                    if(response != null)
+                    {
+                        val body = response.body()
+
+                        if(body != null)
+                        {
+                            tempArray.add(body)
+                            requestListener.onComplete(tempArray.toArray())
+                        }
+                    }
+                }
+
+            })
+    }
+
 }

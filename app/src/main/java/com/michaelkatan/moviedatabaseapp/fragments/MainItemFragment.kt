@@ -13,6 +13,7 @@ import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.adapters.MainItemPageAdapter
 import com.michaelkatan.moviedatabaseapp.controllers.RetroController
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
+import com.michaelkatan.moviedatabaseapp.models.CreditRequest
 import com.michaelkatan.moviedatabaseapp.models.Movie
 import com.michaelkatan.moviedatabaseapp.models.TvShow
 import kotlinx.android.synthetic.main.main_item_screen.*
@@ -22,6 +23,8 @@ class MainItemFragment: Fragment()
 
     val subFragmentList = ArrayList<Fragment>()
     val fragmentTitleList = ArrayList<String>()
+    val mainItemInfoFragment = Main_Item_Info_Fragment()
+
 
     val imagePrefix = "https://image.tmdb.org/t/p/w500/"
     val controller = RetroController
@@ -30,51 +33,12 @@ class MainItemFragment: Fragment()
         val type = arguments?.getString("type")
         val id = arguments?.getInt("id")
 
-        if(type == "movie")
-        {
-            if (id != null)
-            {
-                controller.getMovieById(id = id, requestListener = object : RequestListener
-                {
-                    override fun <T> onComplete(results: Array<T>)
-                    {
-                        val item = results[0] as Movie
-
-                        fillViewWithData(item,"movie")
-
-                    }
-
-                    override fun onError(message: String)
-                    {
-                        Log.d("MainItemFrag",message)
-                    }
-
-                })
-            }
-        }
-
-        if(type == "tvShow")
-        {
-            if(id != null)
-            {
-                controller.getTvShowById(object : RequestListener
-                {
-                    override fun onError(message: String)
-                    {
-                        Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun <T> onComplete(results: Array<T>)
-                    {
-                        fillViewWithData(results[0],"tvShow")
-                    }
-
-                },id)
-            }
-        }
 
         val mainPagerAdapter =  MainItemPageAdapter(activity?.supportFragmentManager,subFragmentList,fragmentTitleList)
 
+
+
+        mainPagerAdapter.addFragment(Main_Item_Info_Fragment(),"info")
         mainPagerAdapter.addFragment(Main_Item_Info_Fragment(),"info")
 
         main_item_tabLayout.setupWithViewPager(main_item_pager)
@@ -97,6 +61,91 @@ class MainItemFragment: Fragment()
         main_item_pager.adapter = mainPagerAdapter
 
         main_item_pager.currentItem = 0
+
+        if(type == "movie")
+        {
+            if (id != null)
+            {
+                controller.getMovieById(id = id, requestListener = object : RequestListener
+                {
+                    override fun <T> onComplete(results: Array<T>)
+                    {
+                        val item = results[0] as Movie
+
+                        fillViewWithData(item,"movie")
+                        val infoBundle = Bundle()
+
+                        val item1 = mainPagerAdapter.getItem(0) as Main_Item_Info_Fragment
+                        item1.onDataReceived(item.overview,"overView")
+
+                    }
+
+                    override fun onError(message: String)
+                    {
+                        Log.d("MainItemFrag",message)
+                    }
+
+                })
+
+                controller.getMovieCreditsById(object : RequestListener
+                {
+                    override fun <T> onComplete(results: Array<T>)
+                    {
+                        val item = results[0] as CreditRequest
+                        var writers = ""
+                        var diractors = ""
+                        for(p in item.crew)
+                        {
+                            if(p.department == "Writing")
+                            {
+                                writers+=p.name+"| "
+                            }
+
+                            if(p.job == "Director")
+                            {
+                                diractors += p.name +" | "
+                                Log.d("itemFrag",p.name)
+                            }
+                        }
+
+                        val infoFrag = mainPagerAdapter.getItem(0) as Main_Item_Info_Fragment
+                        infoFrag.onDataReceived(writers,"writers")
+                        infoFrag.onDataReceived(diractors,"director")
+
+                    }
+
+                    override fun onError(message: String)
+                    {
+                        Log.d("ItemFrag",message)
+                    }
+
+                },id)
+
+            }
+        }
+
+        if(type == "tvShow")
+        {
+            if(id != null)
+            {
+                controller.getTvShowById(object : RequestListener
+                {
+                    override fun onError(message: String)
+                    {
+                        Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun <T> onComplete(results: Array<T>)
+                    {
+                        fillViewWithData(results[0],"tvShow")
+
+
+
+                    }
+
+                },id)
+            }
+        }
 
     }
 

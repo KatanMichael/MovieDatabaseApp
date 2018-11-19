@@ -12,6 +12,7 @@
             android:id="@+id/main_item_info_overview"
             android:text="Info"
             style="@style/main_item_textStyle"
+            android:gravity="start"
     />
 
     <TextView

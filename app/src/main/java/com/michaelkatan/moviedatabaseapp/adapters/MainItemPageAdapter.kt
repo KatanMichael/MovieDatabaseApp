@@ -3,10 +3,11 @@ package com.michaelkatan.moviedatabaseapp.adapters
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 
 class MainItemPageAdapter(val fm: FragmentManager?,
                           val fragmentList: ArrayList<Fragment>,
-                          val titleList: ArrayList<String>) : FragmentPagerAdapter(fm)
+                          val titleList: ArrayList<String>) : FragmentStatePagerAdapter(fm)
 {
 
 
@@ -26,5 +27,7 @@ class MainItemPageAdapter(val fm: FragmentManager?,
         titleList.add(title)
     }
 
-
+    override fun getPageTitle(position: Int): CharSequence? {
+        return titleList[position]
+    }
 }
