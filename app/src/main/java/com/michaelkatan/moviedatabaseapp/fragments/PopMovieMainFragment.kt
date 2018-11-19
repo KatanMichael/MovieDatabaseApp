@@ -74,7 +74,7 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
         bundle.putInt("id",listOfMovies[position].id)
         bundle.putString("type","movie")
 
-        val mainItemFragment = Main_Item_Fragment()
+        val mainItemFragment = MainItemFragment()
         mainItemFragment.arguments = bundle
 
         val supportFragmentManager = this@PopMovieMainFragment.activity!!.supportFragmentManager

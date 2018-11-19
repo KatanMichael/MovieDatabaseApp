@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.main_pop_persons_fragment.*
 class PopPersonsMainFragment : Fragment(), ItemClickListener
 {
     override fun onClickItem(v: View?, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     val retroController: RetroController = RetroController

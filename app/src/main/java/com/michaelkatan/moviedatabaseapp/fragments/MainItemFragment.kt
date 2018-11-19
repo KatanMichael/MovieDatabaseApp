@@ -3,11 +3,11 @@ package com.michaelkatan.moviedatabaseapp.fragments
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
-import android.support.v4.app.Person
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.adapters.MainItemPageAdapter
@@ -17,7 +17,7 @@ import com.michaelkatan.moviedatabaseapp.models.Movie
 import com.michaelkatan.moviedatabaseapp.models.TvShow
 import kotlinx.android.synthetic.main.main_item_screen.*
 
-class Main_Item_Fragment: Fragment()
+class MainItemFragment: Fragment()
 {
 
     val subFragmentList = ArrayList<Fragment>()
@@ -53,6 +53,26 @@ class Main_Item_Fragment: Fragment()
             }
         }
 
+        if(type == "tvShow")
+        {
+            if(id != null)
+            {
+                controller.getTvShowById(object : RequestListener
+                {
+                    override fun onError(message: String)
+                    {
+                        Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun <T> onComplete(results: Array<T>)
+                    {
+                        fillViewWithData(results[0],"tvShow")
+                    }
+
+                },id)
+            }
+        }
+
         val mainPagerAdapter =  MainItemPageAdapter(activity?.supportFragmentManager,subFragmentList,fragmentTitleList)
 
         mainPagerAdapter.addFragment(Main_Item_Info_Fragment(),"info")
@@ -77,6 +97,7 @@ class Main_Item_Fragment: Fragment()
         main_item_pager.adapter = mainPagerAdapter
 
         main_item_pager.currentItem = 0
+
     }
 
 
@@ -90,8 +111,8 @@ class Main_Item_Fragment: Fragment()
         {
             val item = item as Movie
 
-            Glide.with(this@Main_Item_Fragment).load(imagePrefix+item.backdrop_path).into(main_item_backdrop)
-            Glide.with(this@Main_Item_Fragment).load(imagePrefix+item.poster_path).into(main_item_poster)
+            Glide.with(this@MainItemFragment).load(imagePrefix+item.backdrop_path).into(main_item_backdrop)
+            Glide.with(this@MainItemFragment).load(imagePrefix+item.poster_path).into(main_item_poster)
             main_item_title.text = item.title
             main_item_releaseDate.text = item.release_date
             var genre : String = ""
@@ -102,6 +123,28 @@ class Main_Item_Fragment: Fragment()
             }
 
             main_item_genre.text = genre+" |"
+            return
         }
+
+        if(type == "tvShow")
+        {
+            val item = item as TvShow
+
+            Glide.with(this@MainItemFragment).load(imagePrefix+item.backdrop_path).into(main_item_backdrop)
+            Glide.with(this@MainItemFragment).load(imagePrefix+item.poster_path).into(main_item_poster)
+            main_item_title.text = item.original_name
+            main_item_releaseDate.text = item.first_air_date
+            var genre : String = ""
+
+            for(s in item.genres)
+            {
+                genre+= " | ${s.name}"
+            }
+
+            main_item_genre.text = genre+" |"
+
+        }
+
+
     }
 }

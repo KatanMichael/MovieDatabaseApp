@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 import com.michaelkatan.moviedatabaseapp.models.TvShow
 import kotlinx.android.synthetic.main.main_poptvshows_fragment.*
+import kotlin.math.log
 
 class PopTvShowsMainFragment : Fragment(),ItemClickListener
 {
@@ -80,6 +82,18 @@ class PopTvShowsMainFragment : Fragment(),ItemClickListener
 
     override fun onClickItem(v: View?, position: Int)
     {
+        val bundle = Bundle()
+        bundle.putInt("id",listofShows[position].id)
+        Log.d("itemFrag","Id: ${listofShows[position].id}")
+        bundle.putString("type","tvShow")
+
+        val mainItemFragment = MainItemFragment()
+        mainItemFragment.arguments = bundle
+
+        val supportFragmentManager = this@PopTvShowsMainFragment.activity!!.supportFragmentManager
+
+        supportFragmentManager.beginTransaction().replace(R.id.main_container,mainItemFragment,"itemFrag")
+            .addToBackStack("itemFrag").commit()
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?

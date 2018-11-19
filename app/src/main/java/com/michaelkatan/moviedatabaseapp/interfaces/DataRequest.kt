@@ -1,9 +1,6 @@
 package com.michaelkatan.moviedatabaseapp.interfaces
 
-import com.michaelkatan.moviedatabaseapp.models.Movie
-import com.michaelkatan.moviedatabaseapp.models.MovieRequest
-import com.michaelkatan.moviedatabaseapp.models.PersonRequest
-import com.michaelkatan.moviedatabaseapp.models.TvRequest
+import com.michaelkatan.moviedatabaseapp.models.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -34,4 +31,7 @@ interface DataRequest
 
     @GET("movie/{movie_id}")
     fun getMovieById(@Path("movie_id") id:Int, @Query("api_key")apiKey: String): Call<Movie>
+
+    @GET("tv/{tv_id}")
+    fun getTvShowById(@Path("tv_id") id: Int,@Query("api_key")apiKey: String): Call<TvShow>
 }
