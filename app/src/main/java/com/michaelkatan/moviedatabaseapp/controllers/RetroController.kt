@@ -3,10 +3,7 @@ package com.michaelkatan.moviedatabaseapp.controllers
 import android.util.Log
 import com.michaelkatan.moviedatabaseapp.interfaces.DataRequest
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
-import com.michaelkatan.moviedatabaseapp.models.Movie
-import com.michaelkatan.moviedatabaseapp.models.MovieRequest
-import com.michaelkatan.moviedatabaseapp.models.PersonRequest
-import com.michaelkatan.moviedatabaseapp.models.TvRequest
+import com.michaelkatan.moviedatabaseapp.models.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -177,6 +174,64 @@ object RetroController
                 override fun onResponse(call: Call<Movie>, response: Response<Movie>)
                 {
                     val tempArray = ArrayList<Movie>()
+
+                    if(response != null)
+                    {
+                        val body = response.body()
+
+                        if(body != null)
+                        {
+                            tempArray.add(body)
+                            requestListener.onComplete(tempArray.toArray())
+                        }
+                    }
+                }
+
+            })
+    }
+
+    fun getTvShowById(requestListener: RequestListener, id: Int)
+    {
+        retroClient.getTvShowById(id, API_KEY).enqueue(object :Callback<TvShow>
+        {
+            override fun onFailure(call: Call<TvShow>, t: Throwable)
+            {
+                requestListener.onError(t.message.toString())
+            }
+
+            override fun onResponse(call: Call<TvShow>, response: Response<TvShow>)
+            {
+                if(response != null)
+                {
+                    val body = response.body()
+
+                    if(body != null)
+                    {
+                        val tempArray = ArrayList<TvShow>()
+                        tempArray.add(body)
+
+                        requestListener.onComplete(tempArray.toArray())
+                    }
+                }
+            }
+
+        }
+        )
+    }
+
+    fun getMovieCreditsById(requestListener: RequestListener, id: Int)
+    {
+        retroClient.getMovieCreditsById(id, API_KEY)
+            .enqueue(object :Callback<CreditRequest>
+            {
+                override fun onFailure(call: Call<CreditRequest>, t: Throwable)
+                {
+                    requestListener.onError(t.message.toString())
+                }
+
+                override fun onResponse(call: Call<CreditRequest>, response: Response<CreditRequest>)
+                {
+                    val tempArray = ArrayList<CreditRequest>()
 
                     if(response != null)
                     {

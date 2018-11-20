@@ -21,7 +21,7 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
 {
 
 
-    private val     retroController: RetroController = RetroController
+    private val  retroController: RetroController = RetroController
     val listOfMovies = ArrayList<PopularItem>()
     var movieCount = 1
 
@@ -57,6 +57,8 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
 
         listOfMovies.clear()
 
+
+
         for(i in 1..movieCount)
         {
             getMoviesByPageNumber(i,popularMoviesAdapter)
@@ -72,7 +74,7 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
         bundle.putInt("id",listOfMovies[position].id)
         bundle.putString("type","movie")
 
-        val mainItemFragment = Main_Item_Fragment()
+        val mainItemFragment = MainItemFragment()
         mainItemFragment.arguments = bundle
 
         val supportFragmentManager = this@PopMovieMainFragment.activity!!.supportFragmentManager
