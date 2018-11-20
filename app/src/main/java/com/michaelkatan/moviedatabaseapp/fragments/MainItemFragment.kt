@@ -23,7 +23,6 @@ class MainItemFragment: Fragment()
 
     val subFragmentList = ArrayList<Fragment>()
     val fragmentTitleList = ArrayList<String>()
-    val mainItemInfoFragment = Main_Item_Info_Fragment()
 
 
     val imagePrefix = "https://image.tmdb.org/t/p/w500/"
@@ -75,8 +74,9 @@ class MainItemFragment: Fragment()
                         fillViewWithData(item,"movie")
                         val infoBundle = Bundle()
 
-                        val item1 = mainPagerAdapter.getItem(0) as Main_Item_Info_Fragment
-                        item1.onDataReceived(item.overview,"overView")
+                        val overViewFrag = mainPagerAdapter.getItem(0) as Main_Item_Info_Fragment
+                        overViewFrag.onDataReceived(item.overview,"overView")
+
 
                     }
 
@@ -112,6 +112,9 @@ class MainItemFragment: Fragment()
                         infoFrag.onDataReceived(writers,"writers")
                         infoFrag.onDataReceived(diractors,"director")
 
+                        val castFrag = mainPagerAdapter.getItem(1) as MainItemCastCrewFragment
+
+                        castFrag.onDataReceived(item.cast,"cast")
                     }
 
                     override fun onError(message: String)
@@ -137,10 +140,48 @@ class MainItemFragment: Fragment()
 
                     override fun <T> onComplete(results: Array<T>)
                     {
+                        val item = results[0] as TvShow
                         fillViewWithData(results[0],"tvShow")
 
+                        val overViewFrag = mainPagerAdapter.getItem(0) as Main_Item_Info_Fragment
+                        overViewFrag.onDataReceived(item.overview,"overView")
 
+                    }
 
+                },id)
+
+                controller.getTvShowCreditsById(object : RequestListener
+                {
+                    override fun <T> onComplete(results: Array<T>)
+                    {
+                        val item = results[0] as CreditRequest
+                        var writers = ""
+                        var diractors = ""
+                        for(p in item.crew)
+                        {
+                            if(p.department == "Writing")
+                            {
+                                writers+=p.name+"| "
+                            }
+
+                            if(p.job == "Director")
+                            {
+                                diractors += p.name +" | "
+                                Log.d("itemFrag",p.name)
+                            }
+                        }
+
+                        val infoFrag = mainPagerAdapter.getItem(0) as Main_Item_Info_Fragment
+                        infoFrag.onDataReceived(writers,"writers")
+                        infoFrag.onDataReceived(diractors,"director")
+
+                        val castFrag = mainPagerAdapter.getItem(1) as MainItemCastCrewFragment
+                        castFrag.onDataReceived(item.cast,"cast")
+                    }
+
+                    override fun onError(message: String)
+                    {
+                        Log.d("MainItem",message)
                     }
 
                 },id)

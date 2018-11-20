@@ -248,4 +248,29 @@ object RetroController
             })
     }
 
+    fun getTvShowCreditsById(requestListener: RequestListener, id: Int)
+    {
+        retroClient.getTvShowCreditsById(id, API_KEY)
+            .enqueue(object :Callback<CreditRequest>
+            {
+                override fun onFailure(call: Call<CreditRequest>, t: Throwable)
+                {
+                    requestListener.onError(t.message.toString())
+                }
+
+                override fun onResponse(call: Call<CreditRequest>, response: Response<CreditRequest>)
+                {
+                    if(response != null)
+                    {
+                        val body = response.body()
+                        if(body != null)
+                        {
+                            val tempArr = Array<CreditRequest>(1){body}
+                            requestListener.onComplete(tempArr)
+                        }
+                    }
+                }
+
+            })
+    }
 }
