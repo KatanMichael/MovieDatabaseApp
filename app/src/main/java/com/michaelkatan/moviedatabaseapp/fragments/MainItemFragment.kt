@@ -39,7 +39,7 @@ class MainItemFragment: Fragment()
 
 
         mainPagerAdapter.addFragment(Main_Item_Info_Fragment(),"info")
-        mainPagerAdapter.addFragment(Main_Item_Info_Fragment(),"info")
+        mainPagerAdapter.addFragment(MainItemCastCrewFragment(),"cast")
 
         main_item_tabLayout.setupWithViewPager(main_item_pager)
 
