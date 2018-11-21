@@ -13,7 +13,7 @@ import java.util.concurrent.Callable
 
 object RetroController
 {
-    val API_KEY: String = "e59a3745b3e4534b3d9d3541be46ad9e"
+    private val API_KEY: String = "e59a3745b3e4534b3d9d3541be46ad9e"
 
     private val retrofit = Retrofit.Builder().baseUrl("https://api.themoviedb.org/3/")
         .addConverterFactory(GsonConverterFactory.create()).build()
@@ -267,6 +267,32 @@ object RetroController
                         {
                             val tempArr = Array<CreditRequest>(1){body}
                             requestListener.onComplete(tempArr)
+                        }
+                    }
+                }
+
+            })
+    }
+
+    fun getMultiSearchResults(requestListener: RequestListener, query: String)
+    {
+        retroClient.getMultiSearchResuls(API_KEY, query)
+            .enqueue(object :Callback<MultiSearchResult>
+            {
+                override fun onFailure(call: Call<MultiSearchResult>, t: Throwable)
+                {
+                    requestListener.onError(t.message.toString())
+                }
+
+                override fun onResponse(call: Call<MultiSearchResult>, response: Response<MultiSearchResult>)
+                {
+                    if(response != null)
+                    {
+                        val body = response.body()
+
+                        if(body != null)
+                        {
+                            requestListener.onComplete(body.results)
                         }
                     }
                 }

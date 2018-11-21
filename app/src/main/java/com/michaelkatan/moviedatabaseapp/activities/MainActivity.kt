@@ -5,14 +5,20 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.util.Log
 import android.view.MenuItem
-import android.widget.Toast
 import com.michaelkatan.moviedatabaseapp.R
+import com.michaelkatan.moviedatabaseapp.controllers.RetroController
+import com.michaelkatan.moviedatabaseapp.fragments.MainSearchResultsFragment
 import com.michaelkatan.moviedatabaseapp.fragments.PopMovieMainFragment
 import com.michaelkatan.moviedatabaseapp.fragments.PopPersonsMainFragment
 import com.michaelkatan.moviedatabaseapp.fragments.PopTvShowsMainFragment
+import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
+import com.michaelkatan.moviedatabaseapp.models.UnknownItem
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()
+{
+
+    val controller = RetroController
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -26,8 +32,39 @@ class MainActivity : AppCompatActivity() {
 
         toolBarSearch_Btn.setOnClickListener()
         {
-            Toast.makeText(this@MainActivity,toolBarSearch_Et.text.toString()
-                    ,Toast.LENGTH_SHORT).show()
+            val searchQuery = toolBarSearch_Et.text.toString()
+            controller.getMultiSearchResults(object : RequestListener
+            {
+                override fun <T> onComplete(results: Array<T>)
+                {
+                    val tempArr = results as Array<UnknownItem>
+
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_container,MainSearchResultsFragment(),"searchResult")
+                        .commitNow()
+
+                    val searchResultFrag =
+                        supportFragmentManager.findFragmentByTag("searchResult") as MainSearchResultsFragment?
+
+                    if(searchResultFrag != null)
+                    {
+                        searchResultFrag.onDataReceived(tempArr,"")
+                        Log.d("SearchResults","data sent")
+                    }else
+                    {
+                        Log.d("SearchResults","searchResultFrag is null")
+                    }
+
+
+
+                }
+
+                override fun onError(message: String)
+                {
+                    Log.d("MainActivity", message)
+                }
+
+            },searchQuery)
         }
 
         supportFragmentManager.beginTransaction().replace(R.id.main_container,PopMovieMainFragment(),"Movie").commit()

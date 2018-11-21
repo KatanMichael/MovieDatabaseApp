@@ -40,4 +40,8 @@ interface DataRequest
 
     @GET("tv/{tv_id}/credits")
     fun getTvShowCreditsById(@Path("tv_id") id: Int, @Query("api_key")api_key: String ): Call<CreditRequest>
+
+
+    @GET("search/multi")
+    fun getMultiSearchResuls(@Query("api_key") apiKey: String, @Query("query") query: String) :Call<MultiSearchResult>
 }
