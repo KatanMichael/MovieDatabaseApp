@@ -1,9 +1,9 @@
 package com.michaelkatan.moviedatabaseapp.adapters
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentStatePagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 
 class MainItemPageAdapter(val fm: FragmentManager?,
                           val fragmentList: ArrayList<Fragment>,
@@ -21,7 +21,7 @@ class MainItemPageAdapter(val fm: FragmentManager?,
         return fragmentList.size
     }
 
-    fun addFragment(frag:Fragment,title:String)
+    fun addFragment(frag: Fragment, title:String)
     {
         fragmentList.add(frag)
         titleList.add(title)

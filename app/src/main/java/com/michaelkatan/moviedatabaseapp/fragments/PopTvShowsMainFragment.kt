@@ -1,9 +1,9 @@
 package com.michaelkatan.moviedatabaseapp.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +36,8 @@ class PopTvShowsMainFragment : Fragment(),ItemClickListener
 
         main_fragemnt_pop_tvShows_recycle.adapter = popularTvShowAdapter
 
-        main_fragemnt_pop_tvShows_recycle.layoutManager = GridLayoutManager(view.context,3)
+        main_fragemnt_pop_tvShows_recycle.layoutManager =
+            GridLayoutManager(view.context, 3)
 
         getShowsByPage(showPageCount, popularTvShowAdapter)
 

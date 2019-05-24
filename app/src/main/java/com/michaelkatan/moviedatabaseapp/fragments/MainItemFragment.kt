@@ -1,8 +1,8 @@
 package com.michaelkatan.moviedatabaseapp.fragments
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
+import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -43,7 +43,7 @@ class MainItemFragment: Fragment()
         main_item_tabLayout.setupWithViewPager(main_item_pager)
 
 
-        main_item_tabLayout.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener
+        main_item_tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener
         {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
 
