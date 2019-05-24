@@ -41,10 +41,10 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
 
         main_fragemnt_pop_movies_recycle.layoutManager = GridLayoutManager(view.context, 3)
 
+
         main_fragemnt_pop_movies_recycle.addOnScrollListener(object : RecyclerView.OnScrollListener()
         {
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int)
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int)
             {
                 if (!recyclerView!!.canScrollVertically(1))
                 {
@@ -53,7 +53,8 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
                 }
             }
 
-        })
+        }
+        )
 
         listOfMovies.clear()
 

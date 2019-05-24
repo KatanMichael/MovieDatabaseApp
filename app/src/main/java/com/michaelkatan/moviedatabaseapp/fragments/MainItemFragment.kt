@@ -33,7 +33,7 @@ class MainItemFragment: Fragment()
         val id = arguments?.getInt("id")
 
 
-        val mainPagerAdapter =  MainItemPageAdapter(activity?.supportFragmentManager,subFragmentList,fragmentTitleList)
+        val mainPagerAdapter =  MainItemPageAdapter(activity!!.supportFragmentManager,subFragmentList,fragmentTitleList)
 
 
 

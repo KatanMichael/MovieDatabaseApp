@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
 
-class MainItemPageAdapter(val fm: FragmentManager?,
+class MainItemPageAdapter(val fm: FragmentManager,
                           val fragmentList: ArrayList<Fragment>,
                           val titleList: ArrayList<String>) : FragmentStatePagerAdapter(fm)
 {

@@ -41,15 +41,14 @@ class PopPersonsMainFragment : Fragment(), ItemClickListener
         main_fragemnt_pop_persons_recycle.addOnScrollListener(object : RecyclerView.OnScrollListener()
         {
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int)
-            {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (!recyclerView!!.canScrollVertically(1))
                 {
                     personCount++
                     getPersonsByPage(personCount, popularPersonsAdapter)
                 }
-            }
 
+            }
         })
 
     }
