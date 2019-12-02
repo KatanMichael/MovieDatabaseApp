@@ -11,12 +11,17 @@ import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.interfaces.ItemClickListener
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 
-class PopularAdapter(var items: ArrayList<PopularItem>?
-                     , val context: Context, val myClickListener: ItemClickListener) : RecyclerView.Adapter<PopularAdapter.PopularResultViewHolder>()
+class PopularAdapter(
+    items: ArrayList<PopularItem>?
+    , val context: Context, val myClickListener: ItemClickListener) : RecyclerView.Adapter<PopularAdapter.PopularResultViewHolder>()
 {
 
 
-
+    var items = items
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularAdapter.PopularResultViewHolder
     {
         val view = LayoutInflater.from(parent.context)
@@ -54,6 +59,7 @@ class PopularAdapter(var items: ArrayList<PopularItem>?
             myClickListener.onClickItem(holder.view,position)
         }
     }
+
 
 
     class PopularResultViewHolder(val view: View) : RecyclerView.ViewHolder(view)

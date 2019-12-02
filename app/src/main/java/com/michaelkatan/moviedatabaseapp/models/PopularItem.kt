@@ -3,20 +3,11 @@ package com.michaelkatan.moviedatabaseapp.models
 data class PopularItem(var id: Int, var PosterPath: String?, var type: String)
 {
 
+    constructor(movie: Movie) : this(movie.id, movie.poster_path, "movie")
+
+    constructor(tvShow: TvShow):this(tvShow.id,tvShow.poster_path,"tvShow")
 
 
-    fun convertToPopularItem(movie: Movie)
-    {
-        this.id = movie.id
-        this.PosterPath = movie.poster_path
-        this.type = "movie"
-    }
 
-    fun convertToPopularItem(tvShow: TvShow)
-    {
-        this.id = tvShow.id
-        this.PosterPath = tvShow.poster_path
-        this.type = "movie"
-    }
 
 }

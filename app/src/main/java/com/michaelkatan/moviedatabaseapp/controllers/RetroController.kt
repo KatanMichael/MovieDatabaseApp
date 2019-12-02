@@ -117,14 +117,16 @@ object RetroController
                         if(body!= null)
                         {
                             requestListener.onComplete(body.results)
+                            
+
                         }else
                         {
-                            Log.d("RetroController","body is null: ${response.code()}")
+                            Log.d("MovieDBApp","body is null: ${response.code()}")
 
                         }
                     }else
                     {
-                        Log.d("RetroController","response is null")
+                        Log.d("MovieDBApp","response is null")
                     }
 
                 }
