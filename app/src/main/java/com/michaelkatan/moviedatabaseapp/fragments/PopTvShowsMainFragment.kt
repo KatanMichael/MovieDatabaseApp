@@ -27,7 +27,7 @@ class PopTvShowsMainFragment : Fragment(),ItemClickListener
 
     val listofShows = ArrayList<PopularItem>()
     lateinit var tvShowViewModel: TvShowViewModel
-    lateinit var popularTvShowAdapter : PopularAdapter
+    lateinit var popularTvShowAdapter : PopularAdapter<TvShow>
 
     var showPageCount = 1
 
@@ -35,14 +35,15 @@ class PopTvShowsMainFragment : Fragment(),ItemClickListener
     {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecycleView(view)
         initViewModel()
+        initRecycleView(view)
+
 
 
     }
 
     private fun initRecycleView(view : View) {
-        popularTvShowAdapter = PopularAdapter(listofShows, view.context,this)
+        popularTvShowAdapter = PopularAdapter(tvShowViewModel.tvShowsList.value,view.context,this)
 
         main_fragemnt_pop_tvShows_recycle.adapter = popularTvShowAdapter
 
@@ -68,8 +69,8 @@ class PopTvShowsMainFragment : Fragment(),ItemClickListener
     override fun onClickItem(v: View?, position: Int)
     {
         val bundle = Bundle()
-        bundle.putInt("id",listofShows[position].id)
-        Log.d("itemFrag","Id: ${listofShows[position].id}")
+        bundle.putInt("id",listofShows[position].popId)
+        Log.d("itemFrag","Id: ${listofShows[position].popId}")
         bundle.putString("type","tvShow")
 
         val mainItemFragment = MainItemFragment()
@@ -95,16 +96,7 @@ class PopTvShowsMainFragment : Fragment(),ItemClickListener
 
             if(items != null)
             {
-                val tempPopTvShowList = ArrayList<PopularItem>()
-
-                for(tvShow in items)
-                {
-                    tempPopTvShowList.add(PopularItem(tvShow))
-                }
-
-                listofShows.addAll(tempPopTvShowList)
                 popularTvShowAdapter.notifyDataSetChanged()
-
 
             }
 

@@ -53,7 +53,7 @@ class PopPersonsMainFragment : Fragment(), ItemClickListener
 
     }
 
-    fun getPersonsByPage(page: Int, adapter: PopularAdapter)
+    fun getPersonsByPage(page: Int, adapter: PopularAdapter<PopularItem>)
     {
         retroController.getPopularPersons(page = page,requestListener = object : RequestListener
         {

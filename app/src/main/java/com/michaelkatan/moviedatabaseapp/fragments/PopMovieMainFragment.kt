@@ -101,7 +101,7 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
     override fun onClickItem(v: View?, position: Int)
     {
         val bundle = Bundle()
-        bundle.putInt("id",listOfMovies[position].id)
+        bundle.putInt("id",listOfMovies[position].popId)
         bundle.putString("type","movie")
 
         val mainItemFragment = MainItemFragment()
@@ -114,39 +114,6 @@ class PopMovieMainFragment : Fragment(), ItemClickListener
 
     }
 
-    fun getMoviesByPageNumber(pageNumber: Int, adapter: PopularAdapter)
-    {
-
-        retroController.getPopularMovies(object :
-            RequestListener
-        {
-            override fun <T> onComplete(results: Array<T>)
-            {
-                val tempArray = results as Array<Movie>
-
-
-
-                for(r in tempArray.indices)
-                {
-
-                    Log.d("PopularMoviesFrag","Movie: ${tempArray[r].toString()}")
-
-                    listOfMovies.add(PopularItem(tempArray[r].id,tempArray[r].poster_path,"movie"))
-
-
-                }
-
-                adapter.notifyDataSetChanged()
-            }
-
-            override fun onError(message: String)
-            {
-                Log.d("PopularMoviesFrag","Error: $message")
-
-            }
-
-        },page = pageNumber)
-    }
 
 }
 

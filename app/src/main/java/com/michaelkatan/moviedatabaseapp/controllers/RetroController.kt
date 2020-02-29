@@ -1,5 +1,6 @@
 package com.michaelkatan.moviedatabaseapp.controllers
 
+import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.michaelkatan.moviedatabaseapp.interfaces.DataRequest
 import com.michaelkatan.moviedatabaseapp.interfaces.RequestListener
@@ -132,6 +133,11 @@ object RetroController
                 }
 
             })
+    }
+
+    fun testGetPopularTvShows(page: Int = 1) : MutableLiveData<>
+    {
+
     }
 
     fun getPopularPersons(requestListener: RequestListener, page: Int = 1)

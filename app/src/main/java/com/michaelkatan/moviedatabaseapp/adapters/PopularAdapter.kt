@@ -11,21 +11,16 @@ import com.michaelkatan.moviedatabaseapp.R
 import com.michaelkatan.moviedatabaseapp.interfaces.ItemClickListener
 import com.michaelkatan.moviedatabaseapp.models.PopularItem
 
-class PopularAdapter(
-    items: ArrayList<PopularItem>?
-    , val context: Context, val myClickListener: ItemClickListener) : RecyclerView.Adapter<PopularAdapter.PopularResultViewHolder>()
+class PopularAdapter<T>(var items: ArrayList<T>?
+                     , val context: Context, val myClickListener: ItemClickListener) : RecyclerView.Adapter<PopularAdapter.PopularResultViewHolder>()
 {
 
 
-    var items = items
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularAdapter.PopularResultViewHolder
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularResultViewHolder
     {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.popular_item,parent,false)
+            .inflate(R.layout.popular_item,parent,false)
 
         return PopularResultViewHolder(view)
     }
@@ -43,15 +38,16 @@ class PopularAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: PopularAdapter.PopularResultViewHolder, position: Int)
+    override fun onBindViewHolder(holder: PopularResultViewHolder, position: Int)
     {
+        val item = items?.get(position) as PopularItem
 
         val imagePrefix = "https://image.tmdb.org/t/p/w500/"
-        val urlString = (imagePrefix+items!!.get(position).PosterPath)
+        val urlString = (imagePrefix+item.PosterPath)
 
         Glide.with(context)
-                .load(urlString)
-                .into(holder.moviePosterImage)
+            .load(urlString)
+            .into(holder.moviePosterImage)
 
 
         holder.moviePosterImage.setOnClickListener()
@@ -59,7 +55,6 @@ class PopularAdapter(
             myClickListener.onClickItem(holder.view,position)
         }
     }
-
 
 
     class PopularResultViewHolder(val view: View) : RecyclerView.ViewHolder(view)

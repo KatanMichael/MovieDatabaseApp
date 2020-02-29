@@ -6,3 +6,4 @@ data class Movie(val id: Int, val poster_path: String, val adult: Boolean,
                  val title : String, val backdrop_path: String,
                  val popularity: Double, val vote_count: Int, val video: Boolean,
                  val vote_average: Double, val homepage: String, val genres: Array<Genre>)
+    :PopularItem(id,poster_path,"movie")

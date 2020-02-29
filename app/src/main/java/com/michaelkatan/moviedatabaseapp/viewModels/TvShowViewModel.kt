@@ -10,7 +10,6 @@ class TvShowViewModel : ViewModel() {
     var tvShowsList: MutableLiveData<ArrayList<TvShow>> = MutableLiveData()
     var retroController = RetroController
 
-
     init {
 
         retroController.getPopularTvShows(object : RequestListener

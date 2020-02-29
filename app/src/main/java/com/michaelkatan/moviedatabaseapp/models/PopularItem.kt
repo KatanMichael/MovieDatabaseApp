@@ -1,6 +1,6 @@
 package com.michaelkatan.moviedatabaseapp.models
 
-data class PopularItem(var id: Int, var PosterPath: String?, var type: String)
+open class PopularItem(var popId: Int, var PosterPath: String?, var type: String)
 {
 
     constructor(movie: Movie) : this(movie.id, movie.poster_path, "movie")
